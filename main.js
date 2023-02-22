@@ -155,14 +155,17 @@ const blackJack={
        
         setTimeout(function(){blackJack.openCard(blackJack.user)},1500
         );
-        
-        setTimeout(function(){
-            blackJack.openCard(blackJack.dealer);
-            blackJack.dealer.myCardsStatuses[1].card.src="images/images_cards/cardback_0.png"
+        const promise1 = new Promise((resolve, reject)=>{
+            setTimeout(function(){
+                blackJack.openCard(blackJack.dealer);
+                blackJack.dealer.myCardsStatuses[1].card.src="images/images_cards/cardback_0.png"
+                resolve()
         
         },2250);
+    });
 
-       
+      
+    promise1.then(()=>{
         createBtn("hit!", "hithit");
         createBtn("stay.", "staystay"); 
         const hitBtn= document.querySelector(".hithit");
@@ -179,35 +182,32 @@ const blackJack={
                     blackJack.youLoseOrWin("Score shouldn't exceeds 21!",false);
                     
             },500);
-        }}
-        );
+            };
+        });
     
         stayBtn.addEventListener("click", function(){
             removeElement(document.querySelectorAll(".hithit"));
             removeElement(document.querySelectorAll(".staystay"));
             blackJack.dealer.myCardsStatuses[1].card.src=`${blackJack.dealer.myCardsStatuses[1].link}`;
-            const Under17=()=>{
-                blackJack.openCard(blackJack.dealer); 
-                }
-
-            Under17();
-                    
-                
-               
-            
-            
-            
            
-            
-            
-            
-            blackJack.dealerAlgorithm(blackJack.dealer.score)
-                     
+        
+        const ifUnder17=()=>{
+            setTimeout(function(){
+                if(blackJack.dealer.score<17){
+                    ifUnder17();
+                    blackJack.openCard(blackJack.dealer)
+                    console.log(blackJack.dealer.score)
+                }   
+                else blackJack.dealerAlgorithm();
+            },750)
         }
+        
+    ifUnder17();
+        
 
-        )
-
-    },
+    })
+    })
+},
   
     youLoseOrWin(howCome,WOrL){
         const popUp= document.createElement("div");
