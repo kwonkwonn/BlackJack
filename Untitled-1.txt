@@ -1,0 +1,7 @@
+const appendThings=(nickName,value)=>{
+    num=nickName
+    console.log(whichEl);
+    
+    document.num.insertAdjacentHTML("afterend",value);
+}
+appendThings(nickName,valueOfNameGetter);
